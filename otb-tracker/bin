@@ -78,6 +78,17 @@ _restart
 
 # main loop
 while true; do
+	# 'Hotplug' devices such as LTE modems may not have an ifname
+	# until they are connected, or the ifname could change
+	# on a disconnect/connect cycle.
+	OTB_TRACKER_DEVICE=$(ubus call "network.interface.${OTB_TRACKER_INTERFACE}" status |
+		 jq -r '.l3_device')
+	
+	if [ -z "$OTB_TRACKER_DEVICE" ]; then
+	   	sleep "$OTB_TRACKER_INTERVAL"
+		continue
+	fi
+
 	# setup tracker variables
 	OTB_TRACKER_DEVICE_IP=
 	OTB_TRACKER_DEVICE_GATEWAY=
