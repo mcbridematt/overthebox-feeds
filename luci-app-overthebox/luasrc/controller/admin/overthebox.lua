@@ -497,7 +497,7 @@ function multipath_bandwidth()
   uci:foreach("network", "interface",
   function (section)
     local interface = section[".name"]
-    local dev = section["ifname"]
+    local dev = section["_otb_ifname"]
     if dev ~= "lo" then
       local multipath = section["multipath"]
       if multipath == "on" or multipath == "master" or multipath == "backup" or multipath == "handover" then
