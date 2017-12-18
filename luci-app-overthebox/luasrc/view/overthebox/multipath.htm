@@ -124,6 +124,9 @@
 	function getMaxTimestamp(data) {
 		var max_timestamp = 0;
 		for (var itf in data) {
+			if (data[itf].length == 0) {
+				continue;
+			}
 			max_timestamp = Math.max(data[itf][data[itf].length -1][0], max_timestamp);
 		}
 		return max_timestamp;
@@ -133,6 +136,12 @@
 		var max_timestamp = getMaxTimestamp(data);
 		for (var itf in data) {
 			var l = data[itf].length;
+
+			// Skip interface if it is offline/no data
+			if (l == 0) {
+				continue;
+			}
+
 			var end = data[itf][l-1][TIME];
 			var last = data[itf][l-1]
 
